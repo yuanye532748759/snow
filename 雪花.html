@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background: red;
+            max-width: 640px;
+            min-width: 320px;
+        }
+
+        div {
+            /*width: 50px;*/
+            /*height: 50px;*/
+            /*color:black;*/
+        }
+    </style>
+</head>
+<body>
+
+
+<script>
+    window.onload = function () {
+        var snow = {};
+        snow.defaultSize = function (option) {
+            var cx = document.documentElement.clientWidth,
+                    cy = document.documentElement.clientHeight,
+                    timer = null;
+            var snowStyle = {
+                minSize: 10,
+                maxSize: 40,
+                color: '#fff',
+                opacity: 0.5 + Math.random() * 0.5,
+                effect: 50,
+                speed: 3
+
+            };
+            var options = option || snowStyle;
+          var snowOne=function(){
+              var snowBody=document.createElement('div');
+              snowBody.innerHTML='*';
+              snowBody.style.cssText="position:absolute; font-size:"+(Math.random()*(options.maxSize-options.minSize)+10)+"px; " +
+                      "left:"+Math.random()*cx+"px;top:0px;background:"+options.color+"";
+              document.body.append(snowBody);
+              landfall(snowBody)
+          };
+            timer=setInterval(snowOne,options.effect);
+            function landfall(snowBody) {
+                //var snowTop = snowBody.offsetTop;
+                var snowTop=parseInt(getComputedStyle(snowBody).top);
+                var snowTimer = null;
+                function move() {
+                    snowTop += options.speed;
+                    snowBody.style.top = snowTop + "px";
+                    if (snowTop > cy) {
+                        //这里必须先停掉计时器，才能捕捉到超过高度的雪花；需要特别注意
+                        clearInterval(snowTimer);
+                        document.body.removeChild(snowBody);
+                    }
+                }
+                snowTimer = setInterval(move, 30);
+            }
+        };
+        snow.defaultSize()
+    }
+
+
+</script>
+<!--<script>-->
+<!--var box=document.getElementById("box");-->
+<!--var btn=document.getElementById("btn");-->
+<!--//生成雪花-->
+<!--function createSnow(l,t,s){-->
+<!--var newNode=document.createElement("div");-->
+<!--newNode.style.height=s+"px";-->
+<!--newNode.style.width=s+"px";-->
+<!--newNode.style.left=l+"px";-->
+<!--newNode.style.top=t+"px";-->
+<!--newNode.style.background="url('img/snow.png')";-->
+<!--newNode.style.backgroundSize="100% 100%";-->
+<!--box.appendChild(newNode);-->
+<!--startMove(newNode);-->
+<!--}-->
+<!--var time1=null;-->
+<!--var poY=0;-->
+<!--btn.onclick=function(){-->
+
+<!--setInterval(function(){-->
+<!--var le=parseInt(Math.random()*770);//随机生成位置及宽高-->
+<!--var to=parseInt(Math.random()*570);-->
+<!--var size=parseInt(Math.random()*10+20);-->
+<!--createSnow(le,to,size);-->
+<!--},100);-->
+
+<!--}-->
+<!--//雪花下落-->
+<!--function startMove(obj){-->
+<!--var poY=obj.offsetTop;//获取对象到顶部边宽的距离-->
+<!--var time2=null;-->
+<!--function move(){-->
+<!--poY++;-->
+<!--obj.style.top=poY+"px";-->
+<!--if(poY>600){//当雪花超出容器时的处理事件-->
+<!--clearInterval(time2);//清除计时器-->
+<!--box.removeChild(obj);//删除超出容器的节点对象-->
+<!--}-->
+<!--}-->
+<!--time2=setInterval(move,10);-->
+<!--}-->
+<!--</script>-->
+</body>
+</html>
